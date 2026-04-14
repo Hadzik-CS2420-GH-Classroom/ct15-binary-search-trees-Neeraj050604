@@ -75,19 +75,19 @@ int main() {
     //
     std::cout << "=== Section 2: Search ===" << std::endl;
 
-    int targets_found[]     = {50, 30, 70, 20, 40, 60, 80};
-    int targets_not_found[] = {45, 10, 100, 35};
+    int targets_found[] = { 50, 30, 70, 20, 40, 60, 80 };
+    int targets_not_found[] = { 45, 10, 100, 35 };
 
     std::cout << "Values that ARE in the tree:" << std::endl;
     for (int v : targets_found) {
         std::cout << "  search(" << v << ") = "
-                  << (bst.search(v) ? "true" : "false") << std::endl;
+            << (bst.search(v) ? "true" : "false") << std::endl;
     }
 
     std::cout << "Values that are NOT in the tree:" << std::endl;
     for (int v : targets_not_found) {
         std::cout << "  search(" << v << ") = "
-                  << (bst.search(v) ? "true" : "false") << std::endl;
+            << (bst.search(v) ? "true" : "false") << std::endl;
     }
     std::cout << std::endl;
 

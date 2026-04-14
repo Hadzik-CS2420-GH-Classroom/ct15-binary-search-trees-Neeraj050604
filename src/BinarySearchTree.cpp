@@ -96,12 +96,13 @@ void BinarySearchTree::insert(int value) {
 //     (AVL trees, the next topic, fix this)
 //
 Node* BinarySearchTree::insert_(Node* node, int value) {
-    // TODO 1: Implement recursive insert
-    //   - Base case: if node is nullptr, return a new Node(value)
-    //   - If value < node->data: recurse left, assign result to node->left
-    //   - If value > node->data: recurse right, assign result to node->right
-    //   - If value == node->data: do nothing (duplicate)
-    //   - Return node (so the parent can reattach its child pointer)
+    if (node == nullptr)
+        return new Node(value);
+
+    if (value < node->data)
+        node->left = insert_(node->left, value);
+    else if (value > node->data)
+        node->right = insert_(node->right, value);
 
     return node;
 }
@@ -135,13 +136,16 @@ bool BinarySearchTree::search(int value) const {
 //   - this is why balance matters — motivates AVL trees
 //
 bool BinarySearchTree::search_(Node* node, int value) const {
-    // TODO 2: Implement recursive search
-    //   - Base case: if node is nullptr, return false (not found)
-    //   - If value == node->data, return true (found!)
-    //   - If value < node->data, recurse left and return the result
-    //   - Otherwise, recurse right and return the result
+    if (node == nullptr)
+        return false;
 
-    return false;
+    if (value == node->data)
+        return true;
+
+    if (value < node->data)
+        return search_(node->left, value);
+
+    return search_(node->right, value);
 }
 
 // =============================================================================
@@ -171,12 +175,11 @@ void BinarySearchTree::inorder() const {
 }
 
 void BinarySearchTree::inorder_(Node* node) const {
-    // TODO 3: Implement in-order traversal (Left → Root → Right)
-    //   - Base case: if node is nullptr, return
-    //   - Recurse on node->left
-    //   - Print node->data followed by a space
-    //   - Recurse on node->right
+    if (node == nullptr) return;
 
+    inorder_(node->left);
+    std::cout << node->data << " ";
+    inorder_(node->right);
 }
 
 // ---------------------------------------------------------------------------
@@ -196,12 +199,11 @@ void BinarySearchTree::preorder() const {
 }
 
 void BinarySearchTree::preorder_(Node* node) const {
-    // TODO 4: Implement pre-order traversal (Root → Left → Right)
-    //   - Base case: if node is nullptr, return
-    //   - Print node->data followed by a space
-    //   - Recurse on node->left
-    //   - Recurse on node->right
+    if (node == nullptr) return;
 
+    std::cout << node->data << " ";
+    preorder_(node->left);
+    preorder_(node->right);
 }
 
 // ---------------------------------------------------------------------------
@@ -218,14 +220,12 @@ void BinarySearchTree::postorder() const {
     postorder_(root_);
     std::cout << std::endl;
 }
-
 void BinarySearchTree::postorder_(Node* node) const {
-    // TODO 5: Implement post-order traversal (Left → Right → Root)
-    //   - Base case: if node is nullptr, return
-    //   - Recurse on node->left
-    //   - Recurse on node->right
-    //   - Print node->data followed by a space
+    if (node == nullptr) return;
 
+    postorder_(node->left);
+    postorder_(node->right);
+    std::cout << node->data << " ";
 }
 
 // =============================================================================
@@ -256,14 +256,13 @@ int BinarySearchTree::height() const {
 //   - using -1 (not 0) for nullptr avoids an off-by-one in every case
 //
 int BinarySearchTree::height_(Node* node) const {
-    // TODO 6: Implement recursive height
-    //   - Base case: if node is nullptr, return -1
-    //   - Recursively get height of left subtree
-    //   - Recursively get height of right subtree
-    //   - Return 1 + max(left_height, right_height)
-    //     (the +1 counts the edge from this node to its tallest child)
+    if (node == nullptr)
+        return -1;
 
-    return -1;
+    int left = height_(node->left);
+    int right = height_(node->right);
+
+    return 1 + std::max(left, right);
 }
 
 // =============================================================================
